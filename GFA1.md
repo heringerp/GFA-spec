@@ -50,7 +50,6 @@ All optional fields follow the `TAG:TYPE:VALUE` format where `TAG` is a two-char
 | `J`  | `[ !-~]+`                                             | [JSON][], excluding new-line and tab characters
 | `H`  | `[0-9A-F]+`                                           | Byte array in hex format
 | `B`  | `[cCsSiIf](,[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?)+` | Array of integers or floats
-| `X`  | `[ -+\--~]+,[ -+\--~]+,(\*|[0-9]+),(\*|[0-9]+)(,[ -+\--~]+,[ -+\--~]+,(\*|[0-9]+),(\*|[0-9]+))*` | Array of database cross-references
 
 [JSON]: http://json.org/
 
@@ -327,25 +326,25 @@ J  1 - 2 + 100
 J  2 + 3 - * SC:i:1
 ```
 
-# `Q` Rule line
+# `Q` Meta-segment line
 
 A Q-line defines part of a compressed walk that can be used as part of other
-compressed walks.
+compressed walks, so called meta-segments.
 
 ## Required fields
 
-| Column | Field             | Type      | Regexp              | Description
-|--------|-------------------|-----------|---------------------|------------
-| 1      | `RecordType`      | Character | `Q`                 | Record type
-| 2      | `Name`            | String    | `[!-)+-<>-~][!-~]*` | Rule name
-| 3      | `CompressedWalk`  | String    | `([><][!-;=?-~]+)+` | Compressed Walk
+| Column | Field             | Type      | Regexp                | Description
+|--------|-------------------|-----------|-----------------------|------------
+| 1      | `RecordType`      | Character | `Q`                   | Record type
+| 2      | `Name`            | String    | `[!-)+-<>?A-~][!-~]*` | Rule name
+| 3      | `CompressedWalk`  | String    | `([><]@?[!-;=?-~]+)+` | Compressed Walk
 
 A `CompressedWalk` is defined as
 ```txt
-<walk> ::= ( `>' | `<' <segId> )+
+<walk> ::= ( `>' | `<' `@'? <segId> )+
 ```
-where `<segId>` corresponds either to the identifier of a segment or the
-identifier of a Q-line. A valid walk must exist in the graph.
+where `<segId>` corresponds either to the identifier of a segment or the identifier of a Q-line. A valid walk must exist in the graph.
+`@` is placed in front of the segment identifier if the segment is a meta-segment.
 
 ## Optional fields
 
@@ -360,7 +359,7 @@ identifier of a Q-line. A valid walk must exist in the graph.
 ## Example
 
 ```txt
-Q	q1	>s1<s60>s75>q3>s77	FN:Z:MICA	FT:Z:gene	DB:X:EMBL,AA816246,*,*,NCBI_gi,100507436,437,8625		LN:8188	LS:9
+Q	q1	>s1<s60>s75>@q3>s77		LN:8188	LS:9
 Q	q3	>s78>s79>s80>s80<s80
 ```
 
@@ -380,17 +379,17 @@ Note that Z-lines can not use jump connections (introduced in v1.2).
 | 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
 | 5      | `SeqStart`        | Integer   | `\*\|[0-9]+`             | Optional Start position
 | 6      | `SeqEnd`          | Integer   | `\*\|[0-9]+`             | Optional End position (BED-like half-close-half-open)
-| 7      | `CompressedWalk`  | String    | `([><][!-;=?-~]+)+`      | Compressed Walk
+| 7      | `CompressedWalk`  | String    | `([><]@?[!-;=?-~]+)+`    | Compressed Walk
 
 For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
 `HapIndex` starts with 1. For two W-lines with the same
 (`SampleId`,`HapIndex`,`SeqId`), their [`SeqSart`,`SeqEnd`) should have no
 overlaps. A `CompressedWalk` is defined as
 ```txt
-<walk> ::= ( `>' | `<' <segId> )+
+<walk> ::= ( `>' | `<' `@'? <segId> )+
 ```
-where `<segId>` corresponds either to the identifier of a segment or the
-identifier of a Q-line. A valid walk must exist in the graph.
+where `<segId>` corresponds either to the identifier of a segment or the identifier of a Q-line meta-segment. A valid walk must exist in the graph.
+`@` is placed in front of the identifier if it is the identifier of a meta-segment.
 
 ## Example
 
@@ -402,5 +401,5 @@ L	s11	+	s12	-	0M
 L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
 Q   q1  >s11<s12
-Z	NA12878	1	chr1	0	11	>q1>s13
+Z	NA12878	1	chr1	0	11	>@q1>s13
 ```
