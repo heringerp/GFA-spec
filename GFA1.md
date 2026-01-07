@@ -21,6 +21,8 @@ The GFA format is a tab-delimited text format for describing a set of sequences 
 + **Containment**: an overlap between two segments where one is contained in the other.
 + **Path**: an ordered list of oriented segments, where each consecutive pair of oriented segments is supported by a link or a jump record.
 + **Walk**: (since v1.1) an ordered list of oriented segments, intended for pangenome use cases. Each consecutive pair of oriented segments must correspond to a 0-overlap link record.
++ **Meta-segment**: (since v1.3) a segment that is used as a stand-in for multiple other segments.
++ **Compressed Walk**: (since v1.3) an ordered list of oriented segments, intended for pangenome use cases. Unlike a walk record it can contain meta-segments.
 
 ## Line structure
 
@@ -36,6 +38,8 @@ Each line in GFA has tab-delimited fields and the first field defines the type o
 | `C`  | Containment |
 | `P`  | Path        |
 | `W`  | Walk (since v1.1) |
+| `Q`  | Meta-segment (since v1.3) |
+| `Z`  | Compressed Walk (since v1.3) |
 
 ## Optional fields
 
@@ -326,7 +330,7 @@ J  1 - 2 + 100
 J  2 + 3 - * SC:i:1
 ```
 
-# `Q` Meta-segment line
+# `Q` Meta-segment line (since v1.3)
 
 A Q-line defines part of a compressed walk that can be used as part of other
 compressed walks, so called meta-segments.
@@ -360,7 +364,7 @@ Q	q1	>s1<s60>s75>@q3>s77		LN:8188	LS:9
 Q	q3	>s78>s79>s80>s80<s80
 ```
 
-# `Z` Compressed walk line
+# `Z` Compressed walk line (since v1.3)
 
 A walk line describes an oriented walk in the graph. It is only intended for a
 graph without overlaps between segments.
