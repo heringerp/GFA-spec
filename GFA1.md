@@ -340,7 +340,7 @@ compressed walks, so called meta-segments.
 | Column | Field             | Type      | Regexp                | Description
 |--------|-------------------|-----------|-----------------------|------------
 | 1      | `RecordType`      | Character | `Q`                   | Record type
-| 2      | `Name`            | String    | `[!-)+-<>?A-~][!-~]*` | Rule name
+| 2      | `Name`            | String    | `@[!-)+-<>?A-~][!-~]*` | Rule name
 | 3      | `CompressedWalk`  | String    | `([><]@?[!-;=?-~]+)+` | Compressed Walk
 
 A `CompressedWalk` is defined as
@@ -360,8 +360,8 @@ where `<segId>` corresponds either to the identifier of a segment or the identif
 ## Example
 
 ```txt
-Q	q1	>s1<s60>s75>@q3>s77		LN:8188	LS:9
-Q	q3	>s78>s79>s80>s80<s80
+Q	@q1	>s1<s60>s75>@q3>s77		LN:8188	LS:9
+Q	@q3	>s78>s79>s80>s80<s80
 ```
 
 # `Z` Compressed walk line (since v1.3)
@@ -401,6 +401,6 @@ S	s13	GATT
 L	s11	+	s12	-	0M
 L	s12	-	s13	+	0M
 L	s11	+	s13	+	0M
-Q   q1  >s11<s12
+Q   @q1  >s11<s12
 Z	NA12878	1	chr1	0	11	>@q1>s13
 ```
