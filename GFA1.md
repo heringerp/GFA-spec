@@ -352,9 +352,6 @@ where `<segId>` corresponds either to the identifier of a segment or the identif
 |-------|------|----------------|
 | `LN`  | `i`  | Length in number of base pairs |
 | `LS`  | `i`  | Length in number of segments  |
-| `FN`  | `Z`  | Feature name |
-| `FT`  | `Z`  | Feature type |
-| `DB`  | `X`  | Database cross-references |
 
 ## Example
 
