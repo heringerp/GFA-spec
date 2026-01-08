@@ -360,7 +360,7 @@ where `<segId>` corresponds either to the identifier of a segment or the identif
 ## Example
 
 ```txt
-Q	@q1	>s1<s60>s75>@q3>s77		LN:8188	LS:9
+Q	@q1	>s1<s60>s75>@q3>s77		LN:i:8188	LS:i:9
 Q	@q3	>s78>s79>s80>s80<s80
 ```
 
