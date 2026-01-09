@@ -340,8 +340,8 @@ compressed walks, so called meta-segments.
 | Column | Field             | Type      | Regexp                | Description
 |--------|-------------------|-----------|-----------------------|------------
 | 1      | `RecordType`      | Character | `Q`                   | Record type
-| 2      | `Name`            | String    | `@[!-)+-<>?A-~][!-~]*` | Rule name
-| 3      | `CompressedWalk`  | String    | `([><]@?[!-;=?-~]+)+` | Compressed Walk
+| 2      | `Name`            | String    | `@[!-)+\--:?A-~][!-+\--:=?-~]*` | Rule name
+| 3      | `CompressedWalk`  | String    | `([><]@?[!-)+\--:?A-~][!-+\--:=?-~]*)+` | Compressed Walk
 
 A `CompressedWalk` is defined as
 ```txt
@@ -380,7 +380,7 @@ Note that Z-lines can not use jump connections (introduced in v1.2).
 | 4      | `SeqId`           | String    | `[!-)+-<>-~][!-~]*`      | Sequence identifier
 | 5      | `SeqStart`        | Integer   | `\*\|[0-9]+`             | Optional Start position
 | 6      | `SeqEnd`          | Integer   | `\*\|[0-9]+`             | Optional End position (BED-like half-close-half-open)
-| 7      | `CompressedWalk`  | String    | `([><]@?[!-;=?-~]+)+`    | Compressed Walk
+| 7      | `CompressedWalk`  | String    | `([><]@?[!-)+\--:?A-~][!-+\--:=?-~]*)+`    | Compressed Walk
 
 For a haploid sample, `HapIndex` takes 0. For a diploid or polyploid sample,
 `HapIndex` starts with 1. For two W-lines with the same
