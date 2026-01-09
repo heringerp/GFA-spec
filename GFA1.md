@@ -270,7 +270,9 @@ overlaps. A `Walk` is defined as
 <walk> ::= ( `>' | `<' <segId> )+
 ```
 where `<segId>` corresponds to the identifier of a segment. A valid walk must
-exist in the graph.
+exist in the graph. `>` signifies that a segment is traversed in the forward
+direction, it corresponds to the `+` used in `P`-lines. `<` means a backward
+traversal, corresponding to `-`.
 
 ## Example
 
